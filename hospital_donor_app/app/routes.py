@@ -62,10 +62,10 @@ def register_donor():
             )
             db.session.add(new_donor)
             db.session.commit()
-            return jsonify({"message": "Donor registered successfully!"}), 201
+            return render_template('login.html', success="Registered Successfully.")
         except Exception as e:
             return jsonify({"error": str(e)}), 500
-    return render_template('donor_registration.html')
+    return render_template('donor_registration.html', error="Invalid information.")
 
 
 @main.route('/login', methods=['GET', 'POST'])

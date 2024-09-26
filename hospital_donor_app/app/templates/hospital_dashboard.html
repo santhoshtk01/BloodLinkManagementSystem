@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>All Blood Requests</h2>
+<h2 style="font-weight: bold; color: white;">All Blood Requests</h2>
 
 {% if blood_requests %}
     <ul class="list-group">
     {% for request in blood_requests %}
-        <li class="list-group-item">
+        <li class="list-group-item" style="margin-bottom: 15px; padding: 20px; font-weight: bold; color: white; background-color: #343a40;">
             <strong>Patient:</strong> {{ request.patient_name }} |
             <strong>Blood Type:</strong> {{ request.blood_type }} |
             <strong>Urgency:</strong> {{ request.urgency }} |
@@ -18,19 +18,19 @@
     {% endfor %}
     </ul>
 {% else %}
-    <p>No blood requests found.</p>
+    <p style="font-weight: bold; color: white;">No blood requests found.</p>
 {% endif %}
 
-<hr>
+<hr style="border-color: white;">
 
-<h3>Accepted Donors</h3>
+<h3 style="font-weight: bold; color: white;">Accepted Donors</h3>
 <div id="accepted-donors">
     <ul class="list-group" id="donor-list">
         <!-- Donors who accepted will be dynamically inserted here via AJAX -->
     </ul>
 </div>
 
-<a href="{{ url_for('main.logout') }}" class="btn btn-danger">Logout</a>
+<a href="{{ url_for('main.logout') }}" class="btn btn-danger" style="margin-top: 20px;">Logout</a>
 
 <!-- jQuery for AJAX -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -46,7 +46,7 @@
             if (data.length > 0) {
                 data.forEach(function(donor) {
                     donorList.append(
-                        "<li class='list-group-item'>" +
+                        "<li class='list-group-item' style='margin-bottom: 15px; padding: 20px; font-weight: bold; color: white; background-color: #343a40;'>" +
                         "<strong>Name:</strong> " + donor.Name + " | " +
                         "<strong>WhatsApp:</strong> " + donor['Phone (WhatsApp)'] + " | " +
                         "<strong>Blood Group:</strong> " + donor['Blood Group'] +
@@ -55,7 +55,7 @@
                     );
                 });
             } else {
-                donorList.append("<li class='list-group-item'>No accepted donors yet.</li>");
+                donorList.append("<li class='list-group-item' style='font-weight: bold; color: #000000;'>No accepted donors yet.</li>");
             }
         });
     }

@@ -1,9 +1,8 @@
 {% extends "base.html" %}
-
 {% block title %}Blood Request Form{% endblock %}
 
 {% block content %}
-<div class="form-container">
+<div class="form-container" style="font-weight: bold; color: white; padding: 20px;">
     <h2>Request Blood</h2>
 
     <!-- Display a success message if the form was submitted -->
@@ -15,8 +14,8 @@
 
     <!-- Blood Request Form -->
     <form method="POST" action="/request_blood">
-        <div class="form-group">
-            <label for="blood_type">Blood Type</label>
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="blood_type" style="font-weight: bolder; font-size: 18px;">Blood Type</label>
             <select class="form-control" name="blood_type" required>
                 <option value="" disabled selected>Select Blood Type</option>
                 <option value="A+">A+</option>
@@ -29,12 +28,12 @@
                 <option value="O-">O-</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="units_requested">Units Requested</label>
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="units_requested" style="font-weight: bolder; font-size: 18px;">Units Requested</label>
             <input type="number" class="form-control" name="units_requested" min="1" required>
         </div>
-        <div class="form-group">
-            <label for="urgency">Urgency</label>
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="urgency" style="font-weight: bolder; font-size: 18px;">Urgency</label>
             <select class="form-control" name="urgency" required>
                 <option value="" disabled selected>Select Urgency</option>
                 <option value="Low">Low</option>
@@ -43,8 +42,8 @@
                 <option value="Critical">Critical</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="patient_name">Patient Name</label>
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="patient_name" style="font-weight: bolder; font-size: 18px;">Patient Name</label>
             <input type="text" class="form-control" name="patient_name" required>
         </div>
         <button type="submit" class="btn btn-primary">Submit Request</button>
