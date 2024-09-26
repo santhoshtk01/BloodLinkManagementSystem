@@ -1,0 +1,17 @@
+/* Example custom styling */
+body {
+    padding-top: 50px;
+}
+
+h2 {
+    text-align: center;
+}
+
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+button {
+    margin-top: 20px;
+}

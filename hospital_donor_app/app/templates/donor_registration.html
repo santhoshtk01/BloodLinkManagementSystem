@@ -1,0 +1,198 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hospital Donor App{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Register as a Donor</h2>
+            <form method="POST" action="/register_donor" id="donor-form">
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter your full name" required>
+                    <small id="nameError" class="form-text text-danger"></small>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" required>
+                    <small id="emailError" class="form-text text-danger"></small>
+                </div>
+
+                <!-- WhatsApp Number -->
+                <div class="form-group">
+                    <label for="phone_whatsapp">WhatsApp Number</label>
+                    <input type="text" class="form-control" name="phone_whatsapp" id="phone_whatsapp" placeholder="Enter WhatsApp number" required>
+                    <small id="phone_whatsappError" class="form-text text-danger"></small>
+                </div>
+
+                <!-- Contact Number -->
+                <div class="form-group">
+                    <label for="phone_contact">Contact Number</label>
+                    <input type="text" class="form-control" name="phone_contact" id="phone_contact" placeholder="Enter contact number">
+                    <small id="phone_contactError" class="form-text text-danger"></small>
+                </div>
+
+                <!-- Location -->
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" class="form-control" name="location" id="location" placeholder="Enter your location" required>
+                    <small id="locationError" class="form-text text-danger"></small>
+                </div>
+
+                <!-- Age -->
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" class="form-control" name="age" id="age" placeholder="Enter your age" required>
+                    <small id="ageError" class="form-text text-danger"></small>
+                </div>
+
+                <!-- Blood Group -->
+                <div class="form-group">
+                    <label for="blood_group">Blood Group</label>
+                    <select class="form-control" name="blood_group" id="blood_group" required>
+                        <option value="">Select your blood group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                    <small id="blood_groupError" class="form-text text-danger"></small>
+                </div>
+
+                <!-- Gender -->
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select class="form-control" name="gender" id="gender" required>
+                        <option value="">Select your gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <small id="genderError" class="form-text text-danger"></small>
+                </div>
+
+                <!-- Weight -->
+                <div class="form-group">
+                    <label for="weight">Weight (in kg)</label>
+                    <input type="number" class="form-control" name="weight" id="weight" placeholder="Enter your weight" required>
+                    <small id="weightError" class="form-text text-danger"></small>
+                </div>
+
+                <!-- Medical History Checkbox -->
+                <div class="form-group">
+                    <label for="medical_history">Any serious medical history?</label>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="medical_history" id="medical_history">
+                        <label class="form-check-label" for="medical_history">Yes</label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary btn-block" id="registerButton">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    // Form elements
+    const form = document.getElementById('donor-form');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const phoneWhatsappInput = document.getElementById('phone_whatsapp');
+    const phoneContactInput = document.getElementById('phone_contact');
+    const locationInput = document.getElementById('location');
+    const ageInput = document.getElementById('age');
+    const bloodGroupInput = document.getElementById('blood_group');
+    const genderInput = document.getElementById('gender');
+    const weightInput = document.getElementById('weight');
+
+    // Regex patterns
+    const nameRegex = /^[A-Za-z\s]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\d{10}$/;
+
+    // Validate each field
+    function validateInput(input, regex, errorElement, errorMessage) {
+        if (!regex.test(input.value)) {
+            input.classList.add('is-invalid');
+            errorElement.textContent = errorMessage;
+            return false;
+        } else {
+            input.classList.remove('is-invalid');
+            errorElement.textContent = '';
+            return true;
+        }
+    }
+
+    // Event listeners for validation
+    nameInput.addEventListener('input', function() {
+        validateInput(nameInput, nameRegex, document.getElementById('nameError'), 'Please enter a valid name.');
+    });
+
+    emailInput.addEventListener('input', function() {
+        validateInput(emailInput, emailRegex, document.getElementById('emailError'), 'Please enter a valid email address.');
+    });
+
+    phoneWhatsappInput.addEventListener('input', function() {
+        validateInput(phoneWhatsappInput, phoneRegex, document.getElementById('phone_whatsappError'), 'Please enter a valid 10-digit phone number.');
+    });
+
+    locationInput.addEventListener('input', function() {
+        const errorElement = document.getElementById('locationError');
+        if (locationInput.value.trim() === '') {
+            locationInput.classList.add('is-invalid');
+            errorElement.textContent = 'Please enter your location.';
+        } else {
+            locationInput.classList.remove('is-invalid');
+            errorElement.textContent = '';
+        }
+    });
+
+    ageInput.addEventListener('input', function() {
+        const errorElement = document.getElementById('ageError');
+        if (ageInput.value < 18) {
+            ageInput.classList.add('is-invalid');
+            errorElement.textContent = 'You must be at least 18 years old.';
+        } else {
+            ageInput.classList.remove('is-invalid');
+            errorElement.textContent = '';
+        }
+    });
+
+    weightInput.addEventListener('input', function() {
+        const errorElement = document.getElementById('weightError');
+        if (weightInput.value <= 0) {
+            weightInput.classList.add('is-invalid');
+            errorElement.textContent = 'Please enter a valid weight.';
+        } else {
+            weightInput.classList.remove('is-invalid');
+            errorElement.textContent = '';
+        }
+    });
+
+    // Disable the form submission if validation fails
+    form.addEventListener('submit', function(event) {
+        if (!validateInput(nameInput, nameRegex, document.getElementById('nameError'), 'Please enter a valid name.') ||
+            !validateInput(emailInput, emailRegex, document.getElementById('emailError'), 'Please enter a valid email.') ||
+            !validateInput(phoneWhatsappInput, phoneRegex, document.getElementById('phone_whatsappError'), 'Please enter a valid 10-digit phone number.') ||
+            locationInput.value.trim() === '' ||
+            ageInput.value < 18 ||
+            weightInput.value <= 0) {
+            event.preventDefault(); // Prevent form submission
+        }
+    });
+</script>

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Your Matching Blood Requests</h2>
+
+{% if blood_requests %}
+    <ul class="list-group">
+    {% for request in blood_requests %}
+        <li class="list-group-item">
+            Patient: {{ request.patient_name }} | Blood Type: {{ request.blood_type }} | Urgency: {{ request.urgency }} | Units: {{ request.units_requested }}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No matching blood requests found.</p>
+{% endif %}
+
+<a href="{{ url_for('main.logout') }}">Logout</a>
+{% endblock %}

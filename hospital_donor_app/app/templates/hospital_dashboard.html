@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>All Blood Requests</h2>
+
+{% if blood_requests %}
+    <ul class="list-group">
+    {% for request in blood_requests %}
+        <li class="list-group-item">
+            <strong>Patient:</strong> {{ request.patient_name }} |
+            <strong>Blood Type:</strong> {{ request.blood_type }} |
+            <strong>Urgency:</strong> {{ request.urgency }} |
+            <strong>Units Requested:</strong> {{ request.units_requested }}
+
+            <!-- Add a button to mark the blood request as completed -->
+            <button class="btn btn-success float-right" onclick="deleteRequest('{{ request.id }}')">Completed</button>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No blood requests found.</p>
+{% endif %}
+
+<hr>
+
+<h3>Accepted Donors</h3>
+<div id="accepted-donors">
+    <ul class="list-group" id="donor-list">
+        <!-- Donors who accepted will be dynamically inserted here via AJAX -->
+    </ul>
+</div>
+
+<a href="{{ url_for('main.logout') }}" class="btn btn-danger">Logout</a>
+
+<!-- jQuery for AJAX -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    // Function to fetch accepted donors dynamically via AJAX
+    function fetchAcceptedDonors() {
+        $.get("{{ url_for('main.get_accepted_donors') }}", function(data) {
+            var donorList = $("#donor-list");
+            donorList.empty();  // Clear the existing list
+
+            // Loop through the donors and append to the list
+            if (data.length > 0) {
+                data.forEach(function(donor) {
+                    donorList.append(
+                        "<li class='list-group-item'>" +
+                        "<strong>Name:</strong> " + donor.Name + " | " +
+                        "<strong>WhatsApp:</strong> " + donor['Phone (WhatsApp)'] + " | " +
+                        "<strong>Blood Group:</strong> " + donor['Blood Group'] +
+                        " <button class='btn btn-danger float-right' onclick=\"deleteDonor('" + donor['Phone (WhatsApp)'] + "')\">Contacted</button>" +  // Button to mark donor as contacted
+                        "</li>"
+                    );
+                });
+            } else {
+                donorList.append("<li class='list-group-item'>No accepted donors yet.</li>");
+            }
+        });
+    }
+
+    // Poll the server every 10 seconds to fetch accepted donors
+    setInterval(fetchAcceptedDonors, 10000);
+
+    // Initial call to fetch donor data when the page loads
+    fetchAcceptedDonors();
+
+    // Function to delete a blood request (mark as completed)
+    function deleteRequest(requestId) {
+        if (confirm('Are you sure you want to mark this request as completed?')) {
+            $.ajax({
+                url: "{{ url_for('main.delete_request') }}",
+                type: 'POST',
+                data: JSON.stringify({ request_id: requestId }),
+                contentType: 'application/json',
+                success: function(response) {
+                    alert(response.message);
+                    window.location.reload();  // Reload the page to refresh the list
+                }
+            });
+        }
+    }
+
+    // Function to delete a donor (mark as contacted)
+    function deleteDonor(phone) {
+        if (confirm('Mark this donor as contacted?')) {
+            $.ajax({
+                url: "{{ url_for('main.delete_donor') }}",
+                type: 'POST',
+                data: JSON.stringify({ phone: phone }),
+                contentType: 'application/json',
+                success: function(response) {
+                    alert(response.message);
+                    fetchAcceptedDonors();  // Reload the donors list after deletion
+                }
+            });
+        }
+    }
+</script>
+
+{% endblock %}
