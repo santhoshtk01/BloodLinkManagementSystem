@@ -7,8 +7,8 @@ ACCEPTED = []
 final_numbers = []
 
 # Twilio configuration
-account_sid = 'AC87859f72dab00068c45ed144e8e0b90c'
-auth_token = '43ff4b653c3b1357808a2eba65f89164'
+account_sid = ''
+auth_token = ''
 client = Client(account_sid, auth_token)
 
 
@@ -28,7 +28,7 @@ def filter_last_10_seconds(accepted_list):
         message_time = datetime.strptime(entry['Time'], "%Y-%m-%d %H:%M:%S")
 
         # Check if the message time is within the last 10 seconds
-        if current_time - message_time <= timedelta(seconds=15):
+        if current_time - message_time <= timedelta(seconds=35):
             filtered_list.append(entry)
 
     return filtered_list
@@ -51,6 +51,7 @@ def send_whatsapp_message(to_whatsapp, patient_name, units_requested, blood_type
 
 def poll_for_responses():
     final_numbers.clear()
+    ACCEPTED.clear()
     print("Polling for recent responses...")
     try:
         # Fetch incoming messages sent to the Twilio WhatsApp number

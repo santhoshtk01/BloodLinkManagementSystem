@@ -9,6 +9,7 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
+{% include 'navbar.html' %}
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -107,6 +108,7 @@
         </div>
     </div>
 </div>
+{% block scripts %}
 <script>
     // Form elements
     const form = document.getElementById('donor-form');
@@ -138,6 +140,45 @@
         }
     }
 
+    // Validate location field
+    function validateLocation(input, errorElement) {
+        if (input.value.trim() === '') {
+            input.classList.add('is-invalid');
+            errorElement.textContent = 'Please enter your location.';
+            return false;
+        } else {
+            input.classList.remove('is-invalid');
+            errorElement.textContent = '';
+            return true;
+        }
+    }
+
+    // Validate age field
+    function validateAge(input, errorElement) {
+        if (input.value < 18) {
+            input.classList.add('is-invalid');
+            errorElement.textContent = 'You must be at least 18 years old.';
+            return false;
+        } else {
+            input.classList.remove('is-invalid');
+            errorElement.textContent = '';
+            return true;
+        }
+    }
+
+    // Validate weight field
+    function validateWeight(input, errorElement) {
+        if (input.value < 50) {
+            input.classList.add('is-invalid');
+            errorElement.textContent = 'Weight must be at least 50 kg.';
+            return false;
+        } else {
+            input.classList.remove('is-invalid');
+            errorElement.textContent = '';
+            return true;
+        }
+    }
+
     // Event listeners for validation
     nameInput.addEventListener('input', function() {
         validateInput(nameInput, nameRegex, document.getElementById('nameError'), 'Please enter a valid name.');
@@ -152,47 +193,29 @@
     });
 
     locationInput.addEventListener('input', function() {
-        const errorElement = document.getElementById('locationError');
-        if (locationInput.value.trim() === '') {
-            locationInput.classList.add('is-invalid');
-            errorElement.textContent = 'Please enter your location.';
-        } else {
-            locationInput.classList.remove('is-invalid');
-            errorElement.textContent = '';
-        }
+        validateLocation(locationInput, document.getElementById('locationError'));
     });
 
     ageInput.addEventListener('input', function() {
-        const errorElement = document.getElementById('ageError');
-        if (ageInput.value < 18) {
-            ageInput.classList.add('is-invalid');
-            errorElement.textContent = 'You must be at least 18 years old.';
-        } else {
-            ageInput.classList.remove('is-invalid');
-            errorElement.textContent = '';
-        }
+        validateAge(ageInput, document.getElementById('ageError'));
     });
 
     weightInput.addEventListener('input', function() {
-        const errorElement = document.getElementById('weightError');
-        if (weightInput.value <= 0) {
-            weightInput.classList.add('is-invalid');
-            errorElement.textContent = 'Please enter a valid weight.';
-        } else {
-            weightInput.classList.remove('is-invalid');
-            errorElement.textContent = '';
-        }
+        validateWeight(weightInput, document.getElementById('weightError'));
     });
 
-    // Disable the form submission if validation fails
+    // Disable form submission if validation fails
     form.addEventListener('submit', function(event) {
-        if (!validateInput(nameInput, nameRegex, document.getElementById('nameError'), 'Please enter a valid name.') ||
-            !validateInput(emailInput, emailRegex, document.getElementById('emailError'), 'Please enter a valid email.') ||
-            !validateInput(phoneWhatsappInput, phoneRegex, document.getElementById('phone_whatsappError'), 'Please enter a valid 10-digit phone number.') ||
-            locationInput.value.trim() === '' ||
-            ageInput.value < 18 ||
-            weightInput.value <= 0) {
-            event.preventDefault(); // Prevent form submission
+        const isNameValid = validateInput(nameInput, nameRegex, document.getElementById('nameError'), 'Please enter a valid name.');
+        const isEmailValid = validateInput(emailInput, emailRegex, document.getElementById('emailError'), 'Please enter a valid email.');
+        const isPhoneValid = validateInput(phoneWhatsappInput, phoneRegex, document.getElementById('phone_whatsappError'), 'Please enter a valid 10-digit phone number.');
+        const isLocationValid = validateLocation(locationInput, document.getElementById('locationError'));
+        const isAgeValid = validateAge(ageInput, document.getElementById('ageError'));
+        const isWeightValid = validateWeight(weightInput, document.getElementById('weightError'));
+
+        if (!isNameValid || !isEmailValid || !isPhoneValid || !isLocationValid || !isAgeValid || !isWeightValid) {
+            event.preventDefault(); // Prevent form submission if any validation fails
         }
     });
 </script>
+{% endblock %}

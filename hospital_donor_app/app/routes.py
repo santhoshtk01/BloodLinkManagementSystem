@@ -60,8 +60,11 @@ def register_donor():
                 medical_history=data.get('medical_history') == 'on',  # Handle checkbox input
                 last_donated=None  # Initially set to None
             )
-            db.session.add(new_donor)
-            db.session.commit()
+            try:
+                db.session.add(new_donor)
+                db.session.commit()
+            except Exception as e:
+                return render_template('donor_registration.html', error="Duplicate Information..")
             return render_template('login.html', success="Registered Successfully.")
         except Exception as e:
             return jsonify({"error": str(e)}), 500
@@ -242,7 +245,11 @@ def logout():
 @main.route('/get_accepted_donors', methods=['GET'])
 def get_accepted_donors():
     # Assuming ACCEPTED_DONORS is a global list or fetched from a database
-    return jsonify(ACCEPTED_DONORS)
+    final = []
+    for donor in ACCEPTED_DONORS:
+        if donor not in final:
+            final.append(donor)
+    return jsonify(final)
 
 @main.route('/delete_request', methods=['POST'])
 def delete_request():

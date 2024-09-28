@@ -1,0 +1,7 @@
+id,unique_id,name,address,city,state,pincode,phone,fax
+1,UA12345,John Doe,123 Main Street,New York,NY,10001,123-456-7890,123-456-7891
+2,VB67890,Jane Smith,456 Park Avenue,Los Angeles,CA,90001,234-567-8901,234-567-8902
+3,WC78901,David Johnson,789 Oak Street,Chicago,IL,60601,345-678-9012,345-678-9013
+4,XD90123,Emily Brown,101 Elm Street,Houston,TX,77001,456-789-0123,456-789-0124
+5,YE01234,Michael Lee,234 Pine Street,Atlanta,GA,30301,567-890-1234,567-890-1235
+

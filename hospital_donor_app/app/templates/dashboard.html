@@ -5,7 +5,7 @@
 {% if blood_requests %}
     <ul class="list-group">
     {% for request in blood_requests %}
-        <li class="list-group-item" style="font-weight: bold; color: white;">
+        <li class="list-group-item" style="font-weight: bold; color: #000000;">
             Patient: {{ request.patient_name }} | Blood Type: {{ request.blood_type }} | Urgency: {{ request.urgency }} | Units: {{ request.units_requested }}
         </li>
     {% endfor %}
