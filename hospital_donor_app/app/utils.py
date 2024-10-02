@@ -1,14 +1,17 @@
+import os
+
 from twilio.rest import Client
 import time
 from datetime import datetime, timedelta
-
+from dotenv import load_dotenv
+load_dotenv()
 
 ACCEPTED = []
 final_numbers = []
 
 # Twilio configuration
-account_sid = ''
-auth_token = ''
+account_sid = os.environ['ACCOUNTSID']
+auth_token = os.environ['AUTHTOKEN']
 client = Client(account_sid, auth_token)
 
 
