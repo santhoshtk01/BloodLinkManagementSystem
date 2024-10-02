@@ -5,11 +5,11 @@ from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 import secrets
 
-# Initialize extensions (without binding to the app)
+# Initialize extensions (without binding to the application)
 db = SQLAlchemy()
 jwt = JWTManager()
 
-# This will store the singleton app instance
+# This will store the singleton application instance
 app = None
 migrate = Migrate()
 
@@ -24,9 +24,9 @@ def create_app():
 
     # Initialize extensions
     db.init_app(app)
-    migrate.init_app(app, db)  # Initialize Flask-Migrate with the app and db
+    migrate.init_app(app, db)  # Initialize Flask-Migrate with the application and db
 
-    # Register blueprints or other app logic
+    # Register blueprints or other application logic
     from .routes import main as main_blueprint
     app.register_blueprint(main_blueprint)
 

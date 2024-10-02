@@ -157,7 +157,7 @@ def request_blood():
 
             # Define the background thread function
             def poll_responses_thread(app):
-                with app.app_context():  # Ensure the thread works within Flask app context
+                with app.app_context():  # Ensure the thread works within Flask application context
                     while True:
                         outputs = poll_for_responses()  # Poll for WhatsApp responses
 
@@ -173,7 +173,7 @@ def request_blood():
                         # Sleep for some time before polling again
                         time.sleep(10)
 
-            # Start the background polling thread with the current Flask app context
+            # Start the background polling thread with the current Flask application context
             polling_thread = threading.Thread(target=poll_responses_thread, args=(current_app._get_current_object(),))
             polling_thread.start()
 
