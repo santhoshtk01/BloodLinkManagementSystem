@@ -141,8 +141,11 @@ def request_blood():
                 urgency=urgency,
                 patient_name=patient_name
             )
-            db.session.add(new_request)
-            db.session.commit()
+            try:
+                db.session.add(new_request)
+                db.session.commit()
+            except Exception:
+                pass
 
             # Query for donors based on blood type
             matching_donors = Donor.query.filter_by(blood_group=blood_type).all()
